@@ -11,8 +11,8 @@ module LetterOpenerWeb
 
     def show
       text = @letter.send("#{params[:style]}_text").
-        gsub(/"plain\.html"/, "\"#{LetterOpenerWeb.railtie_routes_url_helpers.letter_path(:id => @letter.id, :style => 'plain')}\"").
-        gsub(/"rich\.html"/, "\"#{LetterOpenerWeb.railtie_routes_url_helpers.letter_path(:id => @letter.id, :style => 'rich')}\"")
+        gsub(/"plain\.html"/, "\"#{letter_opener_web.letter_path(:id => @letter.id, :style => 'plain')}\"").
+        gsub(/"rich\.html"/, "\"#{letter_opener_web.letter_path(:id => @letter.id, :style => 'rich')}\"")
       render :text => text
     end
 
@@ -29,13 +29,13 @@ module LetterOpenerWeb
 
     def clear
       Letter.destroy_all
-      redirect_to LetterOpenerWeb.railtie_routes_url_helpers.letters_path
+      redirect_to letter_opener_web.letters_path
     end
 
     def destroy
       @letter = Letter.find(params[:id])
       @letter.delete
-      redirect_to LetterOpenerWeb.railtie_routes_url_helpers.letters_path
+      redirect_to letter_opener_web.letters_path
     end
 
     private
