@@ -20,7 +20,11 @@ module LetterOpenerWeb
                     .gsub(/"plain\.html"/, "\"#{routes.letter_path(id: @letter.id, style: 'plain')}\"")
                     .gsub(/"rich\.html"/, "\"#{routes.letter_path(id: @letter.id, style: 'rich')}\"")
 
-      render html: text.html_safe
+      if Rails::VERSION::STRING < '4.1'
+        render inline: text
+      else
+        render html: text.html_safe
+      end
     end
 
     def attachment
