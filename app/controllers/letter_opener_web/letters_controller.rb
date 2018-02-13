@@ -17,8 +17,8 @@ module LetterOpenerWeb
 
     def show
       text = @letter.send("#{params[:style]}_text")
-                    .gsub(/"plain\.html"/, "\"#{routes.letter_path(id: @letter.id, style: 'plain')}\"")
-                    .gsub(/"rich\.html"/, "\"#{routes.letter_path(id: @letter.id, style: 'rich')}\"")
+                    .gsub(/"plain\.html"/, "\"#{letter_path(id: @letter.id, style: 'plain')}\"")
+                    .gsub(/"rich\.html"/, "\"#{letter_path(id: @letter.id, style: 'rich')}\"")
 
       if Rails::VERSION::STRING < '4.1'
         render inline: text
