@@ -2,6 +2,12 @@
 
 module LetterOpenerWeb
   class LettersController < ApplicationController
+    if Rails::VERSION::STRING < '4'
+      class << self
+        alias before_action before_filter
+      end
+    end
+
     before_action :check_style, only: [:show]
     before_action :load_letter, only: %i[show attachment destroy]
 
