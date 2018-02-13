@@ -15,6 +15,12 @@ module LetterOpenerWeb
       @letters = Letter.search
     end
 
+    def search
+      @letters = Letter.query(params[:q]) if params[:q].present?
+
+      render :index
+    end
+
     def show
       text = @letter.send("#{params[:style]}_text")
                     .gsub(/"plain\.html"/, "\"#{letter_path(id: @letter.id, style: 'plain')}\"")

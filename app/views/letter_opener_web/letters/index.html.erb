@@ -1,6 +1,6 @@
 <div class="col left">
   <h1>
-    Letters
+    <a href="<%= letters_path %>">Letters</a>
     <span class="pull-right">
       <%= link_to letters_path, class: 'btn refresh' do %>
         <i class="icon-refresh"></i>
@@ -12,6 +12,11 @@
       <% end %>
     </span>
   </h1>
+  <form action="<%= search_letters_path %>" method="get">
+    <input type="text" name="q" value="<%= params[:q] %>" />
+    <br />
+    <input type="submit" value="Search" class="btn" />
+  </form>
   <table class="table table-hover letter-opener" data-letters-path="<%= letters_path %>">
     <thead>
       <tr>

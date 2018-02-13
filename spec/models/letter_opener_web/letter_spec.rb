@@ -6,6 +6,7 @@ describe LetterOpenerWeb::Letter do
   def rich_text(mail_id)
     <<-MAIL
 Rich text for #{mail_id}
+<dt>Subject:</dt><dd><strong>Test</strong></dd>
 <!DOCTYPE html>
 <a href='a-link.html'>
   <img src='an-image.jpg'>
@@ -135,6 +136,23 @@ MAIL
       directories = Dir["#{location}/*"]
       expect(directories.count).to eql(1)
       expect(directories.first).not_to match(id)
+    end
+  end
+
+  describe '#subject' do
+    let(:id) { '1111_1111' }
+    let(:letter) { described_class.new(id: id) }
+
+    it { expect(letter.subject).to eq 'Test' }
+  end
+
+  describe '#query' do
+    let(:query_string) { 'address' }
+    let(:letters) { described_class.query(query_string) }
+
+    it do
+      expect(letters.count).to eq 1
+      expect(letters.first.id).to eq  '1111_1111'
     end
   end
 end
