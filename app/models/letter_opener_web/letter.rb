@@ -63,6 +63,10 @@ module LetterOpenerWeb
       File.exist?(base_dir)
     end
 
+    def subject
+      @subject ||= plain_text.scan(/<dt>Subject:<\/dt>[^<]+<dd><strong>([^>]+)<\/strong>/).last.first
+    end
+
     private
 
     def base_dir
