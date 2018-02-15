@@ -23,8 +23,12 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'letter_opener', '~> 1.0'
   gem.add_dependency 'railties', '>= 3.2'
 
-  gem.add_development_dependency 'rails', '~> 4.2.0'
+  gem.add_development_dependency 'appraisal'
+  gem.add_development_dependency 'combustion', '>= 0.5.4'
+  gem.add_development_dependency 'pry-byebug'
+  gem.add_development_dependency 'rails', '>= 3.2.0'
   gem.add_development_dependency 'rspec-rails', '~> 3.0'
   gem.add_development_dependency 'rubocop', '~> 0.47'
   gem.add_development_dependency 'shoulda-matchers', '~> 2.5'
+  gem.add_development_dependency 'test-unit'
 end

@@ -1,6 +1,6 @@
 <div class="col left">
   <h1>
-    Letters
+    <a href="<%= letters_path %>">Letters</a>
     <span class="pull-right">
       <%= link_to letters_path, class: 'btn refresh' do %>
         <i class="icon-refresh"></i>
@@ -12,10 +12,15 @@
       <% end %>
     </span>
   </h1>
+  <form action="<%= search_letters_path %>" method="get">
+    <input type="text" name="q" value="<%= params[:q] %>" />
+    <br />
+    <input type="submit" value="Search" class="btn" />
+  </form>
   <table class="table table-hover letter-opener" data-letters-path="<%= letters_path %>">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Subject</th>
         <th>Sent at</th>
         <th>Action</th>
       </tr>
@@ -24,7 +29,7 @@
       <% if first_letter = @letters.shift %>
         <tr class="active">
           <td>
-            <%= link_to(first_letter.id, letter_path(first_letter, style: first_letter.default_style), target: 'mail') %>
+            <%= link_to(first_letter.subject, letter_path(first_letter, style: first_letter.default_style), target: 'mail') %>
           </td>
           <td><%= first_letter.sent_at %></td>
           <td>
@@ -39,7 +44,7 @@
       <% @letters.each do |letter| %>
         <tr>
           <td>
-            <%= link_to(letter.id, letter_path(letter, style: letter.default_style), target: 'mail') %>
+            <%= link_to(letter.subject, letter_path(letter, style: letter.default_style), target: 'mail') %>
           </td>
           <td><%= letter.sent_at %></td>
           <td>

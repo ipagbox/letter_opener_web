@@ -24,6 +24,18 @@ module LetterOpenerWeb
       new(id: id)
     end
 
+    def self.query(query)
+      letters = search
+
+      letters.select! do |letter|
+        File.open("#{LetterOpenerWeb.config.letters_location}/#{letter.id}/#{letter.default_style}.html") do |file|
+          file.each_line.find { |line| line =~ /#{query}/i }
+        end.present?
+      end
+
+      letters
+    end
+
     def self.destroy_all
       FileUtils.rm_rf(LetterOpenerWeb.config.letters_location)
     end
@@ -61,6 +73,10 @@ module LetterOpenerWeb
 
     def exists?
       File.exist?(base_dir)
+    end
+
+    def subject
+      @subject ||= rich_text.scan(%r{<dt>Subject:</dt>[^<]*<dd><strong>([^>]+)</strong>}).last.first
     end
 
     private

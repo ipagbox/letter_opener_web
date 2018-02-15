@@ -2,6 +2,12 @@
 
 module LetterOpenerWeb
   class LettersController < ApplicationController
+    if Rails::VERSION::STRING < '4'
+      class << self
+        alias before_action before_filter
+      end
+    end
+
     before_action :check_style, only: [:show]
     before_action :load_letter, only: %i[show attachment destroy]
 
@@ -9,19 +15,29 @@ module LetterOpenerWeb
       @letters = Letter.search
     end
 
+    def search
+      @letters = Letter.query(params[:q]) if params[:q].present?
+
+      render :index
+    end
+
     def show
       text = @letter.send("#{params[:style]}_text")
-                    .gsub(/"plain\.html"/, "\"#{routes.letter_path(id: @letter.id, style: 'plain')}\"")
-                    .gsub(/"rich\.html"/, "\"#{routes.letter_path(id: @letter.id, style: 'rich')}\"")
+                    .gsub(/"plain\.html"/, "\"#{letter_path(id: @letter.id, style: 'plain')}\"")
+                    .gsub(/"rich\.html"/, "\"#{letter_path(id: @letter.id, style: 'rich')}\"")
 
-      render html: text.html_safe
+      if Rails::VERSION::STRING < '4.1'
+        render inline: text
+      else
+        render html: text.html_safe
+      end
     end
 
     def attachment
       filename = "#{params[:file]}.#{params[:format]}"
       file     = @letter.attachments[filename]
 
-      return render plain: 'Attachment not found!', status: 404 unless file.present?
+      return render inline: 'Attachment not found!', status: 404 unless file.present?
       send_file(file, filename: filename, disposition: 'inline')
     end
 
