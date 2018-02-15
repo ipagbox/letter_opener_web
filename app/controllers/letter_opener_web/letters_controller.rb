@@ -43,12 +43,12 @@ module LetterOpenerWeb
 
     def clear
       Letter.destroy_all
-      redirect_to routes.letters_path
+      redirect_to letters_url
     end
 
     def destroy
       @letter.delete
-      redirect_to routes.letters_path
+      redirect_to letters_url
     end
 
     private
