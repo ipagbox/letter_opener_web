@@ -76,7 +76,7 @@ module LetterOpenerWeb
     end
 
     def subject
-      @subject ||= rich_text.scan(/<dt>Subject:<\/dt>[^<]+<dd><strong>([^>]+)<\/strong>/).last.first
+      @subject ||= rich_text.scan(%r{<dt>Subject:</dt>[^<]*<dd><strong>([^>]+)</strong>}).last.first
     end
 
     private

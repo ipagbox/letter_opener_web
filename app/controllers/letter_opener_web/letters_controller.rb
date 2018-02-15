@@ -37,7 +37,7 @@ module LetterOpenerWeb
       filename = "#{params[:file]}.#{params[:format]}"
       file     = @letter.attachments[filename]
 
-      return render plain: 'Attachment not found!', status: 404 unless file.present?
+      return render inline: 'Attachment not found!', status: 404 unless file.present?
       send_file(file, filename: filename, disposition: 'inline')
     end
 
