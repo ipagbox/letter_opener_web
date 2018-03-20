@@ -61,6 +61,10 @@ module LetterOpenerWeb
       style_exists?('rich') ? 'rich' : 'plain'
     end
 
+    def default_text
+      @default_test ||= adjust_link_targets(read_file(default_style))
+    end
+
     def attachments
       @attachments ||= Dir["#{base_dir}/attachments/*"].each_with_object({}) do |file, hash|
         hash[File.basename(file)] = File.expand_path(file)
@@ -76,7 +80,7 @@ module LetterOpenerWeb
     end
 
     def subject
-      @subject ||= rich_text.scan(%r{<dt>Subject:</dt>[^<]*<dd><strong>([^>]+)</strong>}).last.first
+      @subject ||= default_text.scan(%r{<dt>Subject:</dt>[^<]*<dd><strong>([^>]+)</strong>}).last.first
     end
 
     private
@@ -90,7 +94,7 @@ module LetterOpenerWeb
     end
 
     def style_exists?(style)
-      File.exist?("#{base_dir}/#{style}.html")
+      File.file?("#{base_dir}/#{style}.html")
     end
 
     def adjust_link_targets(contents)

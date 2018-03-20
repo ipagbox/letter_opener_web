@@ -74,7 +74,7 @@ MAIL
     end
 
     it 'returns plain if rich text version is not present' do
-      allow(File).to receive_messages(exist?: false)
+      allow(File).to receive_messages(file?: false)
       expect(subject.default_style).to eq('plain')
     end
   end
