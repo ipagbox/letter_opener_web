@@ -149,12 +149,31 @@ MAIL
   end
 
   describe '#query' do
-    let(:query_string) { 'text for 1111_1111' }
     let(:letters) { described_class.query(query_string) }
 
-    it do
-      expect(letters.count).to eq 1
-      expect(letters.first.id).to eq '1111_1111'
+    context 'when letters found' do
+      let(:query_string) { 'text for 1111_1111' }
+
+      it do
+        expect(letters.count).to eq 1
+        expect(letters.first.id).to eq '1111_1111'
+      end
+    end
+
+    context 'when letters not found' do
+      let(:query_string) { 'lorem ipsum' }
+
+      it do
+        expect(letters.count).to eq 0
+      end
+    end
+
+    context 'when empty search query' do
+      let(:query_string) { '' }
+
+      it do
+        expect(letters.count).to eq 0
+      end
     end
   end
 end

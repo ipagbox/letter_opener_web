@@ -4,6 +4,8 @@ module LetterOpenerWeb
   class Letter
     attr_reader :id, :sent_at
 
+    EMPTY_ARRAY = [].freeze
+
     def self.letters_location
       @letters_location ||= LetterOpenerWeb.config.letters_location
     end
@@ -25,6 +27,8 @@ module LetterOpenerWeb
     end
 
     def self.query(query)
+      return EMPTY_ARRAY if query.blank?
+
       letters = search
 
       letters.select! do |letter|

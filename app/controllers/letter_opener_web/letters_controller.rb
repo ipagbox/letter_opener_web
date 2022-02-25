@@ -16,7 +16,7 @@ module LetterOpenerWeb
     end
 
     def search
-      @letters = Letter.query(params[:q]) if params[:q].present?
+      @letters = Letter.query(params[:q]) if params.key?(:q)
 
       render :index
     end
